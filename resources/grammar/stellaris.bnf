@@ -10,9 +10,9 @@ key = #"[a-zA-Z0-9\_\-]+"
 value = <'"'?> #"[a-zA-Z0-9\_\-\.]+" <'"'?>
 
 
-WS = ' ' | '\t' | '\n' | '\r'
-eol = '\r\n' | '\r' | '\n'
-<whitespace> = ' ' | '\t'
+WS = #'\s+'
+eol = #'[\n|\r]+'
+
 <STRING> = #"[^\s][a-zA-Z\ \t]*"
 S = start-comment inside-comment? end-comment
 start-comment = '#'

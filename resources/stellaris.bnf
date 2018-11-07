@@ -1,15 +1,20 @@
-config-line = (eol+ | <WS> | start-comment <WS*> inside-comment* eol? )+
 
-comment = (<WS*> start-comment inside-comment eol)
+file =  ( comment | <WS+>| <eol+> |kv)+
 
-<WS> = ' ' | '\t' | '\n' | '\r'
-<end-of-line> = '\r\n' | '\r' | '\n'
+comment = start-comment <WS?> inside-comment? <eol>
+
+kv = (<WS*> key <WS*> '=' <WS*> (hash | value) <WS*> <eol?> | comment )
+hash = "{" ( kv | comment)* "}"
+
+key = #"[a-zA-Z0-9\_\-]+"
+value = <'"'?> #"[a-zA-Z0-9\_\-\.]+" <'"'?>
+
+
+WS = ' ' | '\t' | '\n' | '\r'
 eol = '\r\n' | '\r' | '\n'
 <whitespace> = ' ' | '\t'
-hash = '#'
-<STRING> = #"([a-zA-Z\ \t])*"
+<STRING> = #"[^\s][a-zA-Z\ \t]*"
 S = start-comment inside-comment? end-comment
 start-comment = '#'
-inside-comment = STRING
+inside-comment = #'.+'
 end-comment = '\n' | '\r?\n'
-comment = "#"

@@ -1,0 +1,13 @@
+
+file =  (  <WS+>|<eol> |kv)+
+
+kv = <WS*> key <WS*> '=' <WS*> (hash | value) <WS*> <eol?>
+hash = "{" kv* "}"
+
+key = #"[a-zA-Z0-9\_\-]+"
+value = <'"'?> #"[a-zA-Z0-9\_\-\.]+" <'"'?>
+
+
+WS = ' ' | '\t' | '\n' | '\r'
+eol = '\r\n' | '\r' | '\n'
+<STRING> = #"[^\s][a-zA-Z\ \t]*"

@@ -1,13 +1,15 @@
 (ns stellaris-cl.core
   (:require [instaparse.core :as insta])
-  (:use [clojure.pprint])
+  (:use
+    [clojure.pprint]
+    [clojure.string :as string])
   )
 (def example-tiny "
 ############################
 ")
 
 (def example-file "
-############################s
+############################
 #
 # Pretender Events
 #
@@ -68,22 +70,68 @@ country_event = {
         #}
 }
 ")
+(def example-file-commentless "
+
+namespace = pretender
+
+country_event = {
+        id = pretender.1
+        title = \"pretender.1.name\"
+        picture = GFX_evt_throne_room
+        show_sound = event_conversation
+
+        is_triggered_only = yes
+        hide_window = yes
+
+        trigger = {
+                from = {
+                        is_same_value = root.leader
+                }
+                NOT = { exists = heir }
+                has_authority = auth_imperial
+        }
+
+        immediate = {
+                create_leader = {
+                        type = ruler
+                        species = owner_main_species
+                        name = random
+                        traits = {}
+                }
+                assign_leader = last_created_leader
+        }
+}
+")
+
+
+;(def grammar (clojure.java.io/resource "stellaris-commentless.bnf"))
 (def grammar (clojure.java.io/resource "stellaris.bnf"))
 (def jsgrammar (clojure.java.io/resource "json.bnf"))
 
 (def example-tiny "
 # test
 # other test
+# a
+####test
+#### test
 #
+ testkey = testvalue
+testkey2 = \"testvalue2\"
+testhash = { testhashk1 = testhashk2 }
+testhash2 = {
+   testhashk2 = testhashv2
+}
+testhash3 = {
+   testhashk31 = testhashv31
+    testhashk32 = testhashv32
+}
+testhash4 = {
+   testhashk41 = {
+      testhashk42 = \"testhashv42\"
+   }
+}
 ")
-(def as-and-bs-enlive
-  (insta/parser
-    "S = AB*
-     AB = A B
-     A = 'a'+
-     B = 'b'+"
-    :output-format :enlive))
-
+(defn strip-comment [x] (apply str (take-while #(not (#{\# \;} %)) x)))
 (def stellar-parse
    (insta/parser grammar
      :output-format :enlive))
@@ -91,7 +139,14 @@ country_event = {
 (def json-parse (insta/parser jsgrammar :output-format :enlive))
 ;(print (json-parse "{\"asd\":123,\"dsa\":\"xcz\"}"))
 (print "\n-----\n")
-(pprint (stellar-parse example-tiny))
-
+(pprint (stellar-parse example-tiny :total true))
+(print (stellar-parse example-tiny))
+(print "\n")
+(time (stellar-parse example-tiny))
 (print "\n-----\n")
-(print (stellar-parse example-file))
+;(pprint (stellar-parse example-file :total true))
+;(def commentless (apply str (take-while #(not (#{\# \;} %)) example-file))
+;(time(pprint (stellar-parse commentless)))
+(def data (string/join "\n" (map strip-comment (clojure.string/split-lines example-file))))
+(time(pprint (stellar-parse data :unhide :all)))
+(time(stellar-parse data))

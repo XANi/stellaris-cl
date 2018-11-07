@@ -1,0 +1,21 @@
+# test
+# other test
+# a
+####test
+#### test
+#
+ testkey = testvalue
+testkey2 = "testvalue2"
+testhash = { testhashk1 = testhashk2 }
+testhash2 = {
+   testhashk2 = testhashv2
+}
+testhash3 = {
+   testhashk31 = testhashv31
+    testhashk32 = testhashv32
+}
+testhash4 = {
+   testhashk41 = {
+      testhashk42 = "testhashv42"
+   }
+}

@@ -1,0 +1,15 @@
+config-line = (eol+ | <WS> | start-comment <WS*> inside-comment* eol? )+
+
+comment = (<WS*> start-comment inside-comment eol)
+
+<WS> = ' ' | '\t' | '\n' | '\r'
+<end-of-line> = '\r\n' | '\r' | '\n'
+eol = '\r\n' | '\r' | '\n'
+<whitespace> = ' ' | '\t'
+hash = '#'
+<STRING> = #"([a-zA-Z\ \t])*"
+S = start-comment inside-comment? end-comment
+start-comment = '#'
+inside-comment = STRING
+end-comment = '\n' | '\r?\n'
+comment = "#"

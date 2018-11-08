@@ -9,12 +9,16 @@
 namespace = pretender
 
 ### Ruler Dies Without Heir
+building_ancient_factory = {
+	is_listed = no
+	base_buildtime = @fetime	# For repair
+}
+
 country_event = {
         id = pretender.1
         title = "pretender.1.name"
         picture = GFX_evt_throne_room
         show_sound = event_conversation
-
         is_triggered_only = yes
         hide_window = yes
 
@@ -57,4 +61,8 @@ country_event = {
         #       name = "UNFORTUNATE"
         #       custom_tooltip = pretender.1.tooltip
         #}
+}
+building_ancient_factory = {
+	is_listed = no
+	base_buildtime = @fetime	# For repair
 }

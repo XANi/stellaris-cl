@@ -1,17 +1,20 @@
 
-file =  ( comment | <WS+>| <eol+> |kv)+
+file =  ( comment | <ws>| <ows> | kv |key)+
 
-comment = start-comment <WS?> inside-comment? <eol>
+comment = start-comment <ws?> inside-comment? <eol>
 
-kv = (<WS*> key <WS*> '=' <WS*> (hash | value) <WS*> <eol?> | comment )
-hash = "{" ( kv | comment)* "}"
-
-key = #"[a-zA-Z0-9\_\-]+"
-value = <'"'?> #"[a-zA-Z0-9\_\-\.]+" <'"'?>
+kv = (<ows> key <ows> separator <ows> (hash | value ) <ows> <eol?> | comment )
+hash = "{" <ows>( kv| key | comment | <ows> )+ <ows> "}"
 
 
-WS = #'\s+'
-eol = #'[\n|\r]+'
+key = <'"'?> #"[a-zA-Z0-9\_\-]+" <'"'?>
+separator = "=" | ">" | "<" | ">=" | "<="
+value = <'"'?> #"[a-zA-Z0-9\_\-\.\@]+" <'"'?>
+
+
+ws = #'(\s|\n|\r|\t| )+'
+ows = #'\s*'
+eol = #'[\n\r]+'
 
 <STRING> = #"[^\s][a-zA-Z\ \t]*"
 S = start-comment inside-comment? end-comment

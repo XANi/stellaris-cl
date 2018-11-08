@@ -854,7 +854,7 @@ building_power_plant_5 = {
 	destroy_if = {
 		planet = { is_capital = no }
 	}	
-	
+
 	allow = {
 		if = {
 			limit = {

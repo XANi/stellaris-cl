@@ -6,7 +6,9 @@
   :dependencies [
                  [org.clojure/clojure "1.8.0"]
                  [instaparse "1.4.9"]
-                 [rhizome "0.1.8"]]
+                 [enlive "1.1.6"]
+                 [rhizome "0.1.8"]
+                 ]
 
 
   :main ^:skip-aot stellaris-cl.core)

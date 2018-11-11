@@ -11,10 +11,13 @@
                (map #(clojure.string/replace % #"\#.*$" "")
                            (clojure.string/split-lines x))))
 (def stellaris-parser (insta/parser grammar :output-format :hiccup))
-(def stellaris-parser-debug (insta/parser grammar :output-format :hiccup :unhide :all :total true))
+(def stellaris-parser-enlive (insta/parser grammar :output-format :enlive))
+(def stellaris-parser-debug (insta/parser grammar :output-format :enlive :unhide :all :total true))
 
 (defn stellar-parse [data]
   (stellaris-parser (strip-comment data)))
+(defn stellar-parse-enlive [data]
+  (stellaris-parser-enlive (strip-comment data)))
 
 (defn stellar-parse-debug [data]
   (stellaris-parser-debug (strip-comment data)))
